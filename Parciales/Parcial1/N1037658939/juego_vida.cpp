@@ -6,9 +6,9 @@
 * Juego de la vida. Se tienen tres estados posibles para cada una de las casillas:
 * celula de tipo 1 (1), celula de tipo 2 (2) y ninguna celula (0). El sistema 
 * evoluciona segun ocho reglas estipuladas en el documento y se imprime su evolucion
-* en pantalla. El usurio ingresa la dimension del tablero.
-* Para evitar programacion especial en los bordes del tablero se le pone un marco
-* con numero 5.
+* en pantalla. El usuario ingresa la dimension del tablero.
+* Para evitar programacion especial en los bordes del tablero, se le pone un marco
+* de numeros 5.
 * 
 !     Carolina Herrera Segura, carolina.herreras@udea.edu.co    
 !     Valentina Roquemen Echeverry, valentina.roquemen@udea.edu.co
