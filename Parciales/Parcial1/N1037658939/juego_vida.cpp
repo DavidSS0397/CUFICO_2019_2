@@ -187,7 +187,7 @@ int main()
     // Ciclo que cuenta numero de pasos
     for (int t=0; t<steps; t++)
     {   
-        system("sleep 1"); // Comando para que espere un segundo y vea la evolucion
+        system("sleep 1"); // Comando para que espere un segundo y se vea la evolucion
         gameoflife.evolution(); // Evoluciona el sistema
         gameoflife.print(); // Imprime el resultado de la evolucion
     }
