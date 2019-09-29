@@ -8,7 +8,7 @@
 #include <iostream>//libreria base
 #include <cstdlib>// librerias para generar numeros aleateorios
 #include <vector>// libreria para trabajar con vectores
-#include <unistd.h>// necesario para el funionamiento de la funcio usleep()
+//#include <unistd.h>// necesario para el funionamiento de la funcio usleep()
 #include<ctime>// incializa los numeros aleateorios
 #include<fstream>
 
@@ -244,16 +244,17 @@ int main()
 
 
 
- srand(time(NULL)); // iniciamos el generador de evolucion temporal
+ //srand(time(NULL)); // iniciamos el generador de evolucion temporal
  Estado estado(n, n); //dfinimos las dimensiones de nuestra matriz
 
-
- while(1) 
+int i = 0; //contador temporal
+ while(i <= 1000) 
   {
     estado.dibujar(); //dibujamos el estado actual 
-    usleep(100000); // damos un delay al paso del sistema
-    system("clear"); //
+    //usleep(100000); // damos un delay al paso del sistema
+    //system("clear"); //
     estado.ciclo(); // aplicamos la evolucion del sistema
+    i++; //aumento del contador temporal
   }
 
   return 0;
