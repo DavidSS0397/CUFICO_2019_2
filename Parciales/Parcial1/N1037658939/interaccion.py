@@ -130,8 +130,8 @@ for n in num_steps:
     
     # Se agrega promedio de valor absoluto de diferencias para evaluar
     # convergencia
-    difference_RK4.append(np.mean(np.abs(N_Euler-N_Odeint))) # Metodo de RK4
-    difference_Euler.append(np.mean(np.abs(N_RK4-N_Odeint))) # Metodo de Euler
+    difference_RK4.append(np.mean(np.abs(N_RK4-N_Odeint))) # Metodo de RK4
+    difference_Euler.append(np.mean(np.abs(N_Euler-N_Odeint))) # Metodo de Euler
     
     
 time = [np.linspace(t0, tf, n) for n in num_steps] # Arreglos con los tiempos para diferente numero de pasos
