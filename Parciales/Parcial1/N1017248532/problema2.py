@@ -48,7 +48,7 @@ class System:
     def evolve(self,t):
         ''' Function that evolves the system, over a temporal interval t=[t_i,t_f]  '''
         
-        h = (t[-1] - t[0])/len(t) # the step taken for the integration method
+        h = t[1]-t[0] # the step taken for the integration method
         
         for i in t[:-1]: # last value of t is not used, as it is the final state
             y = self.method([self.g1[-1],self.g2[-1]], i, h, self.F) # Evolution of the states
@@ -65,7 +65,10 @@ mean_div_rk4 = [] # list to store the divergence of the RK4 method for varous st
 
 t = [] # Time array
 
-dt = [0.1,0.01,0.001,0.0001] # array of time steps
+dt = [1,0.1,0.01,0.001,0.0001] # array of time steps
+#dt = [1.2,0.12,0.012]
+
+counter = 0
 for i in dt:
     
     sys_euler = System(1.50,1.00,Euler) # system class for the Euler integrator, with initial conditions n1=1.50, n2=1.00
@@ -75,7 +78,7 @@ for i in dt:
 
     sys_euler.evolve(t) # evolve the system of the Euler integrator over t
     sys_rk4.evolve(t) # evolve the system of the RK4 integrator over t
-    y_od = odeint(sys_euler.F, [sys_euler.g1[0], sys_euler.g2[0]], t) # evolve a new system (not in a class) with same initial conditions, with Odeint integrator
+    y_od = odeint(sys_euler.F, [sys_euler.g1[0], sys_euler.g2[0]], t) # evolve a new system (not in a class) with same initial conditions, with Odeint integrator, we use the function and initial conditions for the system that uses the euler method, because the functions and initial conditions are independent of the method used
     
     y_od_g1 = y_od[:,0] # Integrated solutions for the gas 1
     y_od_g2 = y_od[:,1] # integrated solutions fot the gas 2
@@ -83,14 +86,20 @@ for i in dt:
     #Defining divergence:
     sys_euler.g1_diff = np.abs(sys_euler.g1 - y_od_g1) # Mean difference between the solutions for the gas 1 with the Euler integrator and Odeint integrator
     sys_euler.g2_diff = np.abs(sys_euler.g2 - y_od_g2) # Mean difference between the solutions for the gas 2 with the Euler integrator and Odeint integrator
-    mean_div_euler.append(np.mean((sys_euler.g1_diff+sys_euler.g2_diff)/2)) # divergence is the mean of the mean differences of gas 1 and gas 2 for the whole step 
+
+    mean_div_euler.append(np.mean((sys_euler.g1_diff+sys_euler.g2_diff)/2)) # divergence is the mean of the mean differences of gas 1 and gas 2 for the whole step
     
     sys_rk4.g1_diff = np.abs(sys_rk4.g1 - y_od_g1) # Mean difference between the solutions for the gas 1 with the RK4 integrator and Odeint integrator
     sys_rk4.g2_diff = np.abs(sys_rk4.g2 - y_od_g2) # Mean difference between the solutions for the gas 2 with the RK4 integrator and Odeint integrator
     mean_div_rk4.append(np.mean((sys_rk4.g1_diff+sys_rk4.g2_diff)/2)) # divergence is the mean of the mean differences of gas 1 and gas 2 for the whole step 
+    
 
-
-# solution of the system with the optimal step size, i.e., the one for which the divergence is minimal
+'''
+We first calculated the mean divergence for each step size. We choose the optimal step size as the one for which the divergence is minimal.
+The plots for the solutions and the difference between euler/rk4 and odeint) will be made with this optimal step size. We also included a plot of
+mean absolute divergen in function of the step size.
+'''
+# solution of the system with the optimal step size.
     
 sys_rk4 = System(1.50,1.00,RK4) # system class for the Euler integrator, with initial conditions n1=1.50, n2=1.00
 sys_euler = System(1.50,1.00,Euler) # system class for the RK4 integrator, with initial conditions n1=1.50, n2=1.00
@@ -104,17 +113,17 @@ sys_euler.t_opt = np.arange(0,12+sys_euler.dt_opt, sys_rk4.dt_opt) # time array 
 sys_euler.evolve(sys_euler.t_opt) # the system of the Euler integrator is evolved according to the time array with the optimal step size
 sys_rk4.evolve(sys_rk4.t_opt) # the system of the RK4 integrator is evolved according to the time array with the optimal step size
 
-sys_rk4.y_od = odeint(sys_rk4.F, [sys_rk4.g1[0], sys_rk4.g2[0]], sys_rk4.t_opt) # the system is evolved with the Odeint integrator in order to make the comparation
-sys_euler.y_od = odeint(sys_euler.F, [sys_euler.g1[0], sys_euler.g2[0]], sys_euler.t_opt) # the system is evolved with the Odeint integrator in order to make the comparation
+sys_rk4.y_od = odeint(sys_rk4.F, [sys_rk4.g1[0], sys_rk4.g2[0]], sys_rk4.t_opt) # the system is evolved with the Odeint integrator in order to make the comparation with rk4 method
+sys_euler.y_od = odeint(sys_euler.F, [sys_euler.g1[0], sys_euler.g2[0]], sys_euler.t_opt) # the system is evolved with the Odeint integrator in order to make the comparation with euler method
 
     
 #Defining divergence:
-sys_euler.g1_diff = np.abs(sys_euler.g1 - sys_euler.y_od[:,0]) # Mean difference between the solutions for the gas 1 with the Euler integrator and Odeint integrator
-sys_euler.g2_diff = np.abs(sys_euler.g2 - sys_euler.y_od[:,1]) # Mean difference between the solutions for the gas 2 with the Euler integrator and Odeint integrator
+sys_euler.g1_diff = np.abs(sys_euler.g1 - sys_euler.y_od[:,0]) # Difference between the solutions for the gas 1 with the Euler integrator and Odeint integrator
+sys_euler.g2_diff = np.abs(sys_euler.g2 - sys_euler.y_od[:,1]) # Difference between the solutions for the gas 2 with the Euler integrator and Odeint integrator
 
     
-sys_rk4.g1_diff = np.abs(sys_rk4.g1 - sys_rk4.y_od[:,0]) # Mean difference between the solutions for the gas 1 with the RK4 integrator and Odeint integrator
-sys_rk4.g2_diff = np.abs(sys_rk4.g2 - sys_rk4.y_od[:,1]) # Mean difference between the solutions for the gas 2 with the RK4 integrator and Odeint integrator
+sys_rk4.g1_diff = np.abs(sys_rk4.g1 - sys_rk4.y_od[:,0]) # Difference between the solutions for the gas 1 with the RK4 integrator and Odeint integrator
+sys_rk4.g2_diff = np.abs(sys_rk4.g2 - sys_rk4.y_od[:,1]) # Difference between the solutions for the gas 2 with the RK4 integrator and Odeint integrator
 
 # ------------------------------------------------------------------------------
 # Plots
@@ -124,21 +133,21 @@ sys_rk4.g2_diff = np.abs(sys_rk4.g2 - sys_rk4.y_od[:,1]) # Mean difference betwe
 fig_d,ax_d = plt.subplots(nrows=1,ncols=2,figsize=(10,6)) # figure and axes for the divergence and difference plot
 
 for div,dif,name in zip([mean_div_euler,mean_div_rk4],[sys_euler,sys_rk4],["Euler","RK4"]): # divergence and difference of each integration method are ploted on the cycle
-    ax_d[0].plot(range(len(div)),div[::-1],label=name) # divergence plot
-    ax_d[1].semilogy(dif.t_opt,np.abs((dif.g1_diff + dif.g2_diff)/2)) # difference plot. Semilog scale on y is used for better vizualitation
+    ax_d[0].plot(dt,div,label=name) # divergence plot
+    ax_d[1].semilogy(dif.t_opt,(dif.g1_diff + dif.g2_diff)/2,label=name) # difference plot. Semilog scale on y is used for better vizualitation
 
 
 ax_d[0].legend() # allows labels for plots
 ax_d[0].set_xlabel("Step size") # x label for divergence plot
 ax_d[0].set_ylabel("Mean absolute divergence") # y label for divergence plot
-ax_d[0].set_xlim(0,3) # x limits for divergence plot
-ax_d[0].set_ylim(0,0.1) # y limits for divergence plot
+ax_d[0].set_xlim(dt[-1],dt[0]) # x limits for divergence plot
+ax_d[0].set_ylim(0,max(mean_div_euler)) # y limits for divergence plot
 ax_d[0].set_title("Divergence plot")
 
 ax_d[1].set_xlabel("Time") # x label for difference plot
 ax_d[1].set_ylabel("Mean absolute difference") # y label for difference plot
 ax_d[1].set_title("Difference plot")
-
+ax_d[1].legend() #allows labels for plots
 fig_d.subplots_adjust(left=0.08,bottom=0.14,right=0.96,top=0.85,wspace=0.29,hspace=0.20) # sets the space configration of the plots on the figure
 
 
@@ -178,5 +187,10 @@ fig.subplots_adjust(left=0.07,bottom=0.08,right=0.97,top=0.95,wspace=0.29,hspace
 
 plt.show() # shows all figures
 
-fig_d.savefig("Div_dif_plot.png", format="png") # save divergence and difference plot
-fig.savefig("states_plot.png", format="png") # save states plot
+fig_d.savefig("Problema2_Div_dif_plot.png", format="png") # save divergence and difference plot
+fig.savefig("Problema2_states_plot.png", format="png") # save states plot
+
+'''
+We conclude that the solutions for both the euler and rk4 converge, as can be seen from the difference's plot and the small mean absolute
+divergence for small step sizes.
+'''
