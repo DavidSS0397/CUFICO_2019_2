@@ -47,11 +47,11 @@ def euler(yn, t, h, ode_system):
     dy1, dy2 = ode_system(yn, t)
     
     # Se actualizan las entradas de yn
-    yn[0] += h*dy1 # Actualizacion de yn
-    yn[1] += h*dy2 # Actualizacion de xn
+    y1n = yn[0]+h*dy1 # Actualizacion de yn
+    y2n = yn[1]+h*dy2 # Actualizacion de xn
    
     # Retorna arreglo yn actualizado
-    return yn
+    return np.array([y1n, y2n])
 
 
 # Sistema de ecuaciones acopladas
@@ -98,7 +98,7 @@ for n in num_steps:
     
     # Arreglo con n numero de puntos en el intervalo [t0, tf]
     steps = np.linspace(t0, tf, n)
-    h = (tf-t0)/n # Tamaño del paso
+    h = (tf-t0)/(n-1) # Tamaño del paso
     
     # Arreglos donde se agregaran soluciones a las EDO con cada metodo.
     # Ambos son arreglos de arreglos que guardan cada solucion [n1, n2]
@@ -135,7 +135,7 @@ for n in num_steps:
     
     
 time = [np.linspace(t0, tf, n) for n in num_steps] # Arreglos con los tiempos para diferente numero de pasos
-h = (tf-t0)/num_steps  # Arreglo con los diferentes tamanos de pasos
+h = (tf-t0)/(num_steps-1)  # Arreglo con los diferentes tamanos de pasos
 
 #--------- Graficas de los resultados ---------
 
