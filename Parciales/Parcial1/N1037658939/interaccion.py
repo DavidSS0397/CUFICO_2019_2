@@ -42,16 +42,9 @@ def euler(yn, t, h, ode_system):
     # t: parametro
     # h: tamano de paso
     # ode_system: arreglo con sistema de ecuaciones acopladas
-    
-    # Se define el valor numerico de las EDO
-    dy1, dy2 = ode_system(yn, t)
-    
-    # Se actualizan las entradas de yn
-    y1n = yn[0]+h*dy1 # Actualizacion de yn
-    y2n = yn[1]+h*dy2 # Actualizacion de xn
    
     # Retorna arreglo yn actualizado
-    return np.array([y1n, y2n])
+    return yn + h*ode_system(yn, t)
 
 
 # Sistema de ecuaciones acopladas
