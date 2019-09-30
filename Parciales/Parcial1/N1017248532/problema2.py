@@ -66,9 +66,7 @@ mean_div_rk4 = [] # list to store the divergence of the RK4 method for varous st
 t = [] # Time array
 
 dt = [1,0.1,0.01,0.001,0.0001] # array of time steps
-#dt = [1.2,0.12,0.012]
 
-counter = 0
 for i in dt:
     
     sys_euler = System(1.50,1.00,Euler) # system class for the Euler integrator, with initial conditions n1=1.50, n2=1.00
