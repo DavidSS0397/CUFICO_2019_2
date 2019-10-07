@@ -1,0 +1,5 @@
+#para correr el codigo de c++
+g++ -o problema1  Problema1.cpp
+./problema1
+#para correr el codigo de python
+python3 Problema2.py o ./Problema2.py
