@@ -1,0 +1,3 @@
+g++ -o RK6_Mod RK6_Mod.cpp
+./RK6_Mod
+python RK6Graph.py 

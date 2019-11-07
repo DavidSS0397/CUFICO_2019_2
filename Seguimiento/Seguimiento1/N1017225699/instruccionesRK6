@@ -1,0 +1,6 @@
+## ejecutar esto en la terminal
+
+g++ -o RK6  RK6M.cpp && ./RK6
+
+python RK6graf.py 
+

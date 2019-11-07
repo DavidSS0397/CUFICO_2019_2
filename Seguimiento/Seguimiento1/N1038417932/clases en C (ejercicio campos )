@@ -1,0 +1,210 @@
+*/Este commit pretende calcular el campo generado por un conjunto de particulas y la interacción entre ellas 
+contiene errores de sintaxis (por la traducción a lenguaje C++
+JCD.
+/*
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+//Constantes fisicas
+float G = 0.0; //Constante gravitacional
+float k_e = 8000000000; //Constante de Coulomb
+
+//Valores fisicos del problema 
+float B_x = 0;//
+float B_y = 0;//
+float B_z = 10;//Unica componente no nula del campo magnetico
+
+
+
+class Particle
+/*
+La clase que se instanciará para crear partículas.
+Esto crea un tipo llamado "Partícula", por lo que este es el tipo que entra en 
+el argumento de los métodos */
+
+{
+public:
+  float Carga;
+  float X,Y,Z;
+  float VX,VY,VZ;
+  float M;
+
+
+  //metodos
+  void SetValues(float,float,float,float,float,float,float,int);
+  void Pos_evol(float,float,float,float);
+  float calc_B_force(float, float, float);
+  float calc_f_e(Particle);
+  float calc_net_f(Particle);
+  float force_by_axis(Particle,float, float, float);
+  float calc_acc(Particle,float,float,float);
+  float calc_rel_pos(Particle);
+
+
+  
+}P1,P2;//momentos de las particulas 
+
+void Particle::SetValues(float x, float y, float z, float vx, float vy, float vz, float m, int carga)
+//valores iniciales para las particulas 
+{
+  X = x;
+  Y = y;
+  Z = z;
+  VX = vx;
+  VY = vy;
+  VZ = vz;
+  M = m;
+  Carga = carga;
+}
+
+float Particle::calc_rel_pos(Particle other)
+//calcula la posicion relativa respecto a otra particula 
+
+{
+  float x_rel = X-other.X;
+  float y_rel = Y-other.Y;
+  float z_rel = Z-other.Z;
+  float to_return[3] = {x_rel, y_rel, z_rel};
+  
+  return * to_return;
+  
+}
+
+float Particle::calc_B_force(float B_x, float B_y, float B_z)
+
+//calcula el campo magnetico generado por otra particula
+{
+  float B_force_x = Carga*( VY*B_z - VZ*B_y );
+  float B_force_y = Carga*( -VX*B_z + VZ*B_x );
+  float B_force_z = Carga*( VY*B_x - VX*B_y );
+
+  cout << B_force_x << " " << B_force_y << " " << B_force_z << "H" <<endl;//NO BORRAR,
+
+  
+  float to_return[3] = {B_force_x, B_force_y, B_force_z};
+  
+  return * to_return;
+
+}
+
+float Particle::calc_f_e(Particle other)
+  // EL USO DE LA CLASE COMO ARGUMENTO PUEDE CAUSAR ERROR
+
+//Calcula el campo electrico generado por otra particula
+{
+  float x_rel, y_rel, z_rel = calc_rel_pos(other);
+
+  
+  float r = sqrt( pow(x_rel, 2) + pow(y_rel, 2) + pow( z_rel, 2));
+
+ 
+  float f_e = (k_e*Carga*other.Carga); 
+  cout << f_e << endl;
+  return f_e;
+}
+
+float Particle::calc_net_f(Particle other)
+  //EL USO DE LA CLASE COMO ARGUMENTO PUEDE CAUSAR ERROR
+
+{
+  float net_f = e_f;
+
+  cout << net_f << endl;
+  return net_f;
+}
+
+float Particle::force_by_axis(Particle other,float B_x, float B_y, float B_z)
+//Devuelve la fuerza resultante en las otras direcciones .
+{
+  float net_f = calc_net_f(other);
+  float x_rel,y_rel,z_rel = calc_rel_pos(other);
+
+  float r = sqrt(pow(x_rel, 2)+pow(y_rel, 2)+pow(z_rel, 2));
+  float F_z = net_f*(z_rel/r);
+  float F_y = net_f*( sqrt( pow(r, 2) - pow(z_rel, 2)) / r ) * ( y_rel / sqrt( pow(r, 2) - pow(z_rel, 2)) );
+  float F_x = net_f*( sqrt( pow(r, 2) - pow(z_rel, 2)) / r ) * ( x_rel / sqrt( pow(r, 2) - pow(z_rel, 2)) );
+
+
+
+  float B_force_x, B_force_y, B_force_z = calc_B_force(B_x,B_y,B_z);
+
+  F_x = F_x + B_force_x;
+  F_y = F_y + B_force_y;
+  F_z = F_z + B_force_z;
+
+  cout <<"F.X"<< F_x << " "<<"F.Y"<<" "<< F_y <<"F.Z"<<" "<< F_z << " "<<endl;
+ 
+ 
+  float to_return[3] = {F_x, F_y, F_z};
+  
+  return * to_return;
+
+}
+        
+
+float Particle::calc_acc(Particle other,float B_x,float B_y,float B_z)
+// Calcula la direccion para cada eje
+{
+  float F_x, F_y, F_z = force_by_axis(other,B_x,B_y,B_z);
+  float acc_x = F_x/M;
+  float acc_y = F_y/M;
+  float acc_z = F_z/M;
+  
+
+  cout << acc_x << acc_y << acc_z << endl;//BIEN
+
+  
+  float to_return[3] = {acc_x, acc_y, acc_z};
+  
+  return * to_return;
+  
+
+}
+
+
+
+
+void Particle::Pos_evol(float ax, float ay, float az, float t)
+//actualiza la posicion de la particula 
+{
+  X = X + (VX*t)+(0.5*ax*t*t);
+  Y = Y + (VY*t)+(0.5*ay*t*t);
+  Z = Z + (VZ*t)+(0.5*az*t*t);
+}
+ 
+
+int main(){
+
+  cout << "----------------------" << endl;
+  //configura valores iniciales 
+  P1.SetValues(0,0,0,0,0,0,1,-422);
+  P2.SetValues(1,0,0,0,0,0,1,422);
+
+  
+
+  int i = 0;
+    while (i <= 10000)
+    {
+
+     float ax_p1, ay_p1, az_p1 = P1.calc_acc (P2,B_x,B_y,B_z);
+
+     P1.Pos_evol(ax_p1,ay_p1,az_p1,0.01);
+
+     
+     float ax_p2, ay_p2, az_p2 = P1.calc_acc (P2,B_x,B_y,B_z);
+
+     
+     P2.Pos_evol(ax_p2,ay_p2,az_p2,0.01);
+
+     cout << P1.X   << " " << P1.Y      << " " << P1.Z     << endl;
+
+     cout << P2.X  << " " <<    P2.Y << " " << P2.Z     << endl;
+
+     i++;
+    }
+
+  
+  return 0;
+}

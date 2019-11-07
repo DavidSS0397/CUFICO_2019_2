@@ -1,4 +1,4 @@
-#include <iostream>
+  #include <iostream>
 #include <math.h>
 
 // runge kutta coeffitients
@@ -38,7 +38,7 @@ double y_prime(double x,double y){
 double exact_sol(double x){
   // with initial values (0,0)
 
-  return exp(-x) + x - 1.;
+  return 2*exp(-x) + x - 1.;
 }
 
 //---------------------------------------------------------------------
@@ -46,10 +46,10 @@ double exact_sol(double x){
 int main(){
 
   // Initial value of x
-  double x_i=0, y=0;
+  double x_i=0., y=1.;
 
   int num_points[4]={10,100,1000,10000};
-  double x_f = 5;
+  double x_f = 5.;
 
   for (int i=0; i<4; i++){
 
@@ -62,10 +62,12 @@ int main(){
     double x = x_i;
     
     for (int j=1; j<num_points[i]; j++){
-      x += h;
       y = rk6(x, y, h, y_prime);
+      x += h;
       std::cout << x << "," << y << "," << exact_sol(x) << std::endl;
-    }    
+    }
+
+    y = 1.;
   }
   
   return 0;
