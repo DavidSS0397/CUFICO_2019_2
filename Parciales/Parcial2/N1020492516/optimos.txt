@@ -1,0 +1,2 @@
+mu = 195 y c = 1
+Son los óptimos porque al dejar uno mu fijo y buscar en un rango amplio sobre c se notó que mietras más se alejaba del cero, más grande era, sin embargo para c muy cercano al cero landau diverge muy lentamente. Al tomar c fijo y buscar mu se nota un valle al rededor del 190, ambas cosas se aprecian en las gráficas
