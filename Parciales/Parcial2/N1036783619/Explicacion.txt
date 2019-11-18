@@ -1,0 +1,1 @@
+Los valores óptimos fueron mu=206 y c=6.6, porque son los que generan menor valor de Chi cuadrado. Teniendo en cuenta que variando mu se genera un corrimiento horizontal de la gráfica y variando c una variación en el ancho de la curva y la altura del pico, se tanteó que el rango en el que puede estar el mejor ajuste era mu en (206 a 209) y c en (6.5 a 6.9)
