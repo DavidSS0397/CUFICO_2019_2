@@ -1,0 +1,8 @@
+mu = 120
+c = 4
+
+Explicación:
+Como con estos valores de mu y c se obtiene el menor valor de chi^2/ndf,
+el histograma de la distribución generada con ellos es el más parecido,
+bin a bin, al histograma generado por los datos originales. Los valores
+también corresponden a un mínimo en la gráfica de chi^2/ndf vs mu y c.
