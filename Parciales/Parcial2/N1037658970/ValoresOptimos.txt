@@ -1,0 +1,13 @@
+Parámetros óptimos:
+
+mu = 230
+c = 3
+
+Los valores encontrados son los que mejor describen los datos 
+porque con ellos se obtiene el chi2 mínimo. 
+
+Esto queda en evidencia al graficar el histograma con los datos,
+superpuesta al generado con los mu y c óptimos. En esta se ve
+que los picos se superponen, el máximo de los picos también lo
+hace, solo se encuentra fallas en la curva del descenso donde se
+separan un poco. 
