@@ -1,0 +1,4 @@
+los valores óptimos encontrados para mu y c son los siguientes:
+mu=168.42105263157896
+c=1
+Estos dos parámetros son los que mejor describen los datos pues durante varias ejecuciones del algoritmo de metrópolis para un intervalo de mu y c obtuvimos diferentes valores para la variable chi^2. De estos diferentes valores escogimos el mínimo y observamos a que valor correspondía de mu y c en el intervalo. Lo anterior se realizo varias veces hasta ir reduciendo el intervalo y encontrar el mejor mínimo para chi^2 y los valores optimos mu y c.
