@@ -1,0 +1,3 @@
+mu = 2 y c = 82.4
+Basándonos el criterio de chi cuadrado y en el código implementado, estos valores pra mu y c son los más fieles al comportamiento de la distribución que siguen los datos entregados. Dado que se evaluaron en la zona donde la combinación de diferentes mu y c producen el menor valor para chi cuadrado sobre el número de bins.
+Teniendo en cuenta que eran valores aleatorios se usó el código de forma reiterada para encontrar la zona con la mejor fidelidad a la forma de la distribución.
