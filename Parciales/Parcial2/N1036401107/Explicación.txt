@@ -1,0 +1,4 @@
+Miu y c óptimos.
+Para este caso se encontró que miu = 135 y c = 4 (tratando de que los intervalos donde se variaban fuera relativamente 
+pequeños para tener una mejor aproximación) son los que minimizan el valor de chi cuadrado, y al ser minimizado chi cuadrado 
+se da el mejor ajuste entre histogramas. 
