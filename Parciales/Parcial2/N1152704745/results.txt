@@ -1,0 +1,10 @@
+Valores óptimos de mu y c:
+
+mu = 160.831
+c = 10.792
+
+Valor de X^2/ndf:
+
+X^2/ndf = 7.325
+
+Se hizo un barrido entre valores de mu y c, cenrtrados en los valores dados por el histograma de los datos (que corresponden a mu=197.7 y c=76.51), donde se calculó el valor de X^2/ndf. El valor óptimo de X^2, al estar normalizado con el número de grados de libertad, debería ser el mínimo valor más cercano a 1. De todos los calculados, los valores de mu y c especificados al principio fueron los que más se acercaron a 1.
